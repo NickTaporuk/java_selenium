@@ -50,9 +50,11 @@ public class SimpleTest {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         //==================================2.get links=================================
         for (String l: linksList) {
+            //max 300 liks in hour
             System.out.println(l);
             driver.get(l);
-
+            WebElement posts = driver.findElement(By.className("subheading"));
+            
         }
 
         driver.quit();
