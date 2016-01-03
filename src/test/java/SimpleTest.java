@@ -51,6 +51,8 @@ public class SimpleTest {
         //==================================2.get links=================================
         for (String l: linksList) {
             System.out.println(l);
+            driver.get(l);
+
         }
 
         driver.quit();
