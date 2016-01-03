@@ -27,11 +27,12 @@ public class SimpleTest {
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/etsy","artistmdart","ktvbrf282f34");
         st = con.createStatement();
         getData();
+        //System.out.println("linksList:"+linksList);
         //Bot job
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://etsy.com");
-
+        //==================================1.logining==================================
         WebElement loginFormOpen = driver.findElement(By.id("sign-in"));
         loginFormOpen.click();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -47,6 +48,11 @@ public class SimpleTest {
         WebElement submitLoginForm = driver.findElement(By.id("signin-button"));
         submitLoginForm.click();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        //==================================2.get links=================================
+        for (String l: linksList) {
+            System.out.println(l);
+        }
+
         driver.quit();
     }
 
@@ -64,7 +70,7 @@ public class SimpleTest {
 //                System.out.println(id+":->"+link+":->"+created_at+":->"+count);
                 linksList.add(rs.getString("link"));
             }
-            System.out.println("linksList:"+linksList);
+//            System.out.println("linksList:"+linksList);
         } catch (Exception e){
             System.out.println(e);
         }
