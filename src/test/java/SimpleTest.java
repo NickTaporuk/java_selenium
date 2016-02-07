@@ -1,5 +1,7 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -92,31 +94,31 @@ public class SimpleTest {
             System.out.println("paginator:"+paginator.getText());
             paginator.click();
 
+            /*do {
+                getLikes(driver);
+                WebElement sibling = driver.findElement(By.xpath("/*//*[@class=\"current-page\"]/../preceding-sibling::span[1]/a"));
+                System.out.println("href attribute:"+sibling.getAttribute("href"));
+                driver.get(sibling.getAttribute("href"));
+                countLink-=10;
+            } while (countLink > 0);*/
+            for (int i = 0; i <= countLink; i+=10) {
+                if(i == 0){
+                    System.out.println("I:"+i);
+                    getLikes(driver);
+//                    WebElement sibling = driver.findElement(By.xpath("//*[@class=\"current-page\"]/../preceding-sibling::span[1]/a"));
+//                    System.out.println("href attribute:"+sibling.getAttribute("href"));
+//                    driver.get(sibling.getAttribute("href"));
 
-//            do {
-
-//                likeList.add(
-//                        );
-//            WebElement lieks = driver.findElements(By.className("unfavorited-button"));
-            List<WebElement> linksToFavoritesClick = driver.findElements(By.className("favorited-button"));
-            for(int i=0 ; i<linksToFavoritesClick.size() ; i++)
-            {
-                        linksToFavoritesClick.get(i).click();
-                System.out.println("get favorites link text:"+linksToFavoritesClick.get(i).getText());
-//                        countLink--;
-            }
-
-            List<WebElement> linksToClick = driver.findElements(By.className("button-fave"));
-
-                for(int i=0 ; i<linksToClick.size() ; i++)
-                {
-                        linksToClick.get(i).click();
-                    System.out.println("get link text:"+linksToClick.get(i).getText());
-//                        countLink--;
+                } else {
+                    WebDriverWait wait = new WebDriverWait(driver,30);
+                    wait.until(ExpectedConditions.presenceOfElementLocated(By.className("favorited-button")));
+                    System.out.println("I1:"+i);
+                    WebElement sibling = driver.findElement(By.xpath("//*[@class=\"current-page\"]/../preceding-sibling::span[1]/a"));
+                    driver.get(sibling.getAttribute("href"));
+                    System.out.println("href attribute:"+sibling.getAttribute("href"));
+                    getLikes(driver);
                 }
-//                countLink--;
-//            } while (countLink > 0);
-
+            }
 //            URL aURL = new URL(l);
 
 //            System.out.println("test:"+aURL.getPath());
@@ -180,5 +182,28 @@ public class SimpleTest {
         } catch (Exception e){
             System.out.println(e);
         }
+    }
+
+    public void getLikes(WebDriver driver) {
+        WebDriverWait wait = new WebDriverWait(driver,30);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.className("favorited-button")));
+
+        List<WebElement> linksToFavoritesClick = driver.findElements(By.className("favorited-button"));
+        for(int i=0 ; i<linksToFavoritesClick.size() ; i++)
+        {
+            linksToFavoritesClick.get(i).click();
+            System.out.println("get favorites link text:"+linksToFavoritesClick.get(i).getText());
+        }
+
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        List<WebElement> linksToClick = driver.findElements(By.className("button-fave"));
+
+        for(int i=0 ; i<linksToClick.size() ; i++)
+        {
+            linksToClick.get(i).click();
+            System.out.println("get link text:"+linksToClick.get(i).getText());
+        }
+        linksToFavoritesClick.clear();
+        linksToClick.clear();
     }
 }
