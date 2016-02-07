@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +27,7 @@ public class SimpleTest {
     private static final String MAX_LIKE_GAME_REGEX = "\\b\\d\\d+";
     ArrayList<String> linksList = new ArrayList();
     ArrayList<String> postsList = new ArrayList();
+    List<WebElement> likeList;
     @Test
     public void navigate() throws Exception {
         //init
@@ -75,16 +77,45 @@ public class SimpleTest {
             else countLink = 10 ;
             System.out.println("postsList:"+postsList);
             // write to testarea post
-           /* WebElement postEl = driver.findElement(By.name("post"));
+            WebElement postEl = driver.findElement(By.name("post"));
             postEl.sendKeys(postsList.get(0));
             // click submit
             WebElement submitPost = driver.findElement(By.id("new-post-submit"));
-            submitPost.click();*/
+            submitPost.click();
+
+            //*[@class="unfavorited-button"]
+
 
             //search last element in pagination
-            WebElement paginator = driver.findElement(By.xpath("//*[@id=\"pager-wrapper\"]/div/div[1]/span[last()]"));
-            //*[@id="pager-wrapper"]/div/div[1]/span[7]
-            System.out.println("paginator:"+paginator.findElement(By.xpath("//a")).getAttribute("href"));
+            WebElement paginator = driver.findElement(By.xpath("//*[@id=\"pager-wrapper\"]/div/div[1]/span[last()-1]"));
+//            System.out.println("paginator:"+paginator.findElement(By.xpath("//a")).getAttribute("href"));
+            System.out.println("paginator:"+paginator.getText());
+            paginator.click();
+
+
+//            do {
+
+//                likeList.add(
+//                        );
+//            WebElement lieks = driver.findElements(By.className("unfavorited-button"));
+            List<WebElement> linksToFavoritesClick = driver.findElements(By.className("favorited-button"));
+            for(int i=0 ; i<linksToFavoritesClick.size() ; i++)
+            {
+                        linksToFavoritesClick.get(i).click();
+                System.out.println("get favorites link text:"+linksToFavoritesClick.get(i).getText());
+//                        countLink--;
+            }
+
+            List<WebElement> linksToClick = driver.findElements(By.className("button-fave"));
+
+                for(int i=0 ; i<linksToClick.size() ; i++)
+                {
+                        linksToClick.get(i).click();
+                    System.out.println("get link text:"+linksToClick.get(i).getText());
+//                        countLink--;
+                }
+//                countLink--;
+//            } while (countLink > 0);
 
 //            URL aURL = new URL(l);
 
